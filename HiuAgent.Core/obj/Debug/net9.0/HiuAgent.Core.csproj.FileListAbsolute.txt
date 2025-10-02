@@ -1,0 +1,5 @@
+D:\HiuAgent\HiuAgent.Core\obj\Debug\net9.0\HiuAgent.Core.csproj.AssemblyReference.cache
+D:\HiuAgent\HiuAgent.Core\obj\Debug\net9.0\HiuAgent.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\HiuAgent\HiuAgent.Core\obj\Debug\net9.0\HiuAgent.Core.AssemblyInfoInputs.cache
+D:\HiuAgent\HiuAgent.Core\obj\Debug\net9.0\HiuAgent.Core.AssemblyInfo.cs
+D:\HiuAgent\HiuAgent.Core\obj\Debug\net9.0\HiuAgent.Core.csproj.CoreCompileInputs.cache
