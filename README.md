@@ -6,7 +6,7 @@ A Blazor Server application implementing Microsoft Agent Framework for building 
 
 This solution consists of two main projects:
 
-- **HiuAgent** - Blazor Server web application (.NET 8.0)
+- **HiuAgent** - Blazor Server web application (.NET 9.0)
 - **HiuAgent.Core** - Core agent functionality library (.NET 9.0)
 
 ## 📋 Prerequisites
