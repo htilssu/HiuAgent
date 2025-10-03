@@ -1,19 +1,163 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu/>
+<div class="app-container">
+    <!-- Modern Top Navbar -->
+    <header class="app-header">
+        <div class="header-container">
+            <div class="brand">
+                <div class="brand-icon">
+                    <span class="bi bi-robot"></span>
+                </div>
+                <div class="brand-text">
+                    <h1>HiuAgent</h1>
+                    <span class="brand-tagline">Smart Management System</span>
+                </div>
+            </div>
+            
+            <nav class="main-nav">
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                    <span class="bi bi-house-door"></span>
+                    <span>Trang chủ</span>
+                </NavLink>
+                <NavLink class="nav-link" href="calendar">
+                    <span class="bi bi-calendar-check"></span>
+                    <span>Lịch Agent</span>
+                </NavLink>
+                <NavLink class="nav-link" href="tasks">
+                    <span class="bi bi-list-task"></span>
+                    <span>Công việc</span>
+                </NavLink>
+                <NavLink class="nav-link" href="analytics">
+                    <span class="bi bi-graph-up"></span>
+                    <span>Thống kê</span>
+                </NavLink>
+            </nav>
+
+            <div class="header-actions">
+                <button class="icon-btn" title="Thông báo">
+                    <span class="bi bi-bell"></span>
+                    <span class="badge">3</span>
+                </button>
+                <button class="icon-btn" title="Cài đặt">
+                    <span class="bi bi-gear"></span>
+                </button>
+                <div class="user-menu">
+                    <img src="https://ui-avatars.com/api/?name=User&background=667eea&color=fff" alt="User" class="user-avatar" />
+                    <span class="user-name">Admin</span>
+                    <span class="bi bi-chevron-down"></span>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" @onclick="ToggleMobileMenu">
+                <span class="bi bi-list"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu @(isMobileMenuOpen ? "open" : "")">
+        <NavLink class="mobile-nav-link" href="" Match="NavLinkMatch.All" @onclick="CloseMobileMenu">
+            <span class="bi bi-house-door"></span>
+            <span>Trang chủ</span>
+        </NavLink>
+        <NavLink class="mobile-nav-link" href="calendar" @onclick="CloseMobileMenu">
+            <span class="bi bi-calendar-check"></span>
+            <span>Lịch Agent</span>
+        </NavLink>
+        <NavLink class="mobile-nav-link" href="tasks" @onclick="CloseMobileMenu">
+            <span class="bi bi-list-task"></span>
+            <span>Công việc</span>
+        </NavLink>
+        <NavLink class="mobile-nav-link" href="analytics" @onclick="CloseMobileMenu">
+            <span class="bi bi-graph-up"></span>
+            <span>Thống kê</span>
+        </NavLink>
     </div>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+    <!-- Main Content -->
+    <main class="app-main">
+        @Body
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <div class="footer-brand">
+                    <div class="footer-icon">
+                        <span class="bi bi-robot"></span>
+                    </div>
+                    <div>
+                        <h3>HiuAgent</h3>
+                        <p>Hệ thống quản lý thông minh với AI</p>
+                    </div>
+                </div>
+                <p class="footer-description">
+                    Nâng cao hiệu suất làm việc với công nghệ Agent AI tiên tiến,
+                    tự động hóa và tối ưu hóa mọi quy trình quản lý.
+                </p>
+            </div>
+
+            <div class="footer-section">
+                <h4>Sản phẩm</h4>
+                <ul class="footer-links">
+                    <li><a href="/calendar">Quản lý lịch</a></li>
+                    <li><a href="/tasks">Quản lý công việc</a></li>
+                    <li><a href="/analytics">Thống kê & Báo cáo</a></li>
+                    <li><a href="/integrations">Tích hợp</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Hỗ trợ</h4>
+                <ul class="footer-links">
+                    <li><a href="/docs">Tài liệu</a></li>
+                    <li><a href="/guides">Hướng dẫn</a></li>
+                    <li><a href="/api">API Reference</a></li>
+                    <li><a href="/contact">Liên hệ</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Kết nối</h4>
+                <div class="social-links">
+                    <a href="#" class="social-link" title="Facebook">
+                        <span class="bi bi-facebook"></span>
+                    </a>
+                    <a href="#" class="social-link" title="Twitter">
+                        <span class="bi bi-twitter"></span>
+                    </a>
+                    <a href="#" class="social-link" title="LinkedIn">
+                        <span class="bi bi-linkedin"></span>
+                    </a>
+                    <a href="#" class="social-link" title="GitHub">
+                        <span class="bi bi-github"></span>
+                    </a>
+                </div>
+                <div class="newsletter">
+                    <p>Đăng ký nhận tin tức</p>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Email của bạn" />
+                        <button>
+                            <span class="bi bi-send"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
+        <div class="footer-bottom">
+            <div class="footer-container">
+                <p>&copy; 2024 HiuAgent. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="/privacy">Privacy Policy</a>
+                    <a href="/terms">Terms of Service</a>
+                    <a href="/cookies">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 </div>
 
 <div id="blazor-error-ui">
@@ -21,3 +165,17 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
+
+@code {
+    private bool isMobileMenuOpen = false;
+
+    private void ToggleMobileMenu()
+    {
+        isMobileMenuOpen = !isMobileMenuOpen;
+    }
+
+    private void CloseMobileMenu()
+    {
+        isMobileMenuOpen = false;
+    }
+}
