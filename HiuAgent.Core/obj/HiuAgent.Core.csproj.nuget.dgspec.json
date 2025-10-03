@@ -43,24 +43,6 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
-          "dependencies": {
-            "Azure.AI.OpenAI": {
-              "target": "Package",
-              "version": "[2.1.0, )"
-            },
-            "Azure.Identity": {
-              "target": "Package",
-              "version": "[1.16.0, )"
-            },
-            "Microsoft.Agents.AI": {
-              "target": "Package",
-              "version": "[1.0.0-preview.251001.3, )"
-            },
-            "Microsoft.Agents.AI.OpenAI": {
-              "target": "Package",
-              "version": "[1.0.0-preview.251001.3, )"
-            }
-          },
           "imports": [
             "net461",
             "net462",
@@ -73,6 +55,9 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }

@@ -1,0 +1,17 @@
+﻿services:
+  hiuagent.web:
+    image: hiuagent.web
+    build:
+      context: .
+      dockerfile: HiuAgent.Web/Dockerfile
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - data:/var/lib/postgresql
+
+volumes:
+  data:

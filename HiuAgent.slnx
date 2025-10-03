@@ -1,0 +1,4 @@
+﻿<Solution>
+  <Project Path="HiuAgent.Core\HiuAgent.Core.csproj" Type="Classic C#" />
+  <Project Path="HiuAgent.Web\HiuAgent.Web.csproj" Type="Classic C#" />
+</Solution>
