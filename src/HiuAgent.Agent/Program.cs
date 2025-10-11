@@ -9,7 +9,7 @@ class Program
     public static void Main()
     {
         var chatClient =
-            new OpenAIClient(new ApiKeyCredential("AIzaSyADry9irUqcYnFCklX4nYdrgWzvt0nmU6A"),
+            new OpenAIClient(new ApiKeyCredential(""),
                     new OpenAIClientOptions()
                     {
                         Endpoint = new Uri("https://generativelanguage.googleapis.com/v1beta/openai/"),
