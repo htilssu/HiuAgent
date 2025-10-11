@@ -8,6 +8,6 @@
     <Project Path="src\HiuAgent.Web\HiuAgent.Web.csproj" Type="Classic C#" />
   </Folder>
   <Folder Name="/Tests/">
-    <Project Path="test\Core.Test\Core.Test.csproj" Type="Classic C#" />
+    <Project Path="test\HiuAgent.Core.Test\HiuAgent.Core.Test.csproj" Type="Classic C#" />
   </Folder>
 </Solution>
