@@ -1,0 +1,257 @@
+@page "/calendar"
+@rendermode InteractiveServer
+@using System.Globalization
+@using HiuAgent.Core.Domains
+
+<PageTitle>Lịch của bạn</PageTitle>
+
+<div class="calendar-container">
+    <!-- Header -->
+    <div class="calendar-header">
+        <div class="header-actions">
+            <button class="btn btn-outline" @onclick="PreviousMonth">
+                <span class="bi bi-chevron-left"></span>
+            </button>
+            <button class="btn btn-today" @onclick="GoToToday">Hôm nay</button>
+            <button class="btn btn-outline" @onclick="NextMonth">
+                <span class="bi bi-chevron-right"></span>
+            </button>
+            <button class="btn btn-primary" @onclick="OpenNewEventModal">
+                <span class="bi bi-plus-lg"></span> Tạo sự kiện
+            </button>
+        </div>
+    </div>
+
+    <!-- Month/Year Display -->
+    <div class="month-display">
+        <h2>@currentDate.ToString("MMMM yyyy", new CultureInfo("vi-VN"))</h2>
+    </div>
+
+    <!-- Calendar Grid -->
+    <div class="calendar-grid">
+        <!-- Weekday Headers -->
+        <div class="weekday-header">Thứ 2</div>
+        <div class="weekday-header">Thứ 3</div>
+        <div class="weekday-header">Thứ 4</div>
+        <div class="weekday-header">Thứ 5</div>
+        <div class="weekday-header">Thứ 6</div>
+        <div class="weekday-header">Thứ 7</div>
+        <div class="weekday-header">Chủ nhật</div>
+
+        <!-- Calendar Days -->
+        @foreach (var day in GetCalendarDays())
+        {
+            <div class="calendar-day @GetDayClass(day)" @onclick="() => SelectDay(day)">
+                <div class="day-number">@day.Day</div>
+                @if (HasEvents(day))
+                {
+                    <div class="events-container">
+                        @foreach (var evt in GetDayEvents(day))
+                        {
+                            <div class="event-item @evt.Category">
+                                <span class="event-time">@evt.Time</span>
+                                <span class="event-title">@evt.Title</span>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <!-- Event Details Sidebar -->
+    @if (selectedDay != null)
+    {
+        <div class="event-sidebar @(showSidebar ? "show" : "")">
+            <div class="sidebar-header">
+                <h3>@selectedDay.Value.ToString("dd MMMM yyyy", new CultureInfo("vi-VN"))</h3>
+                <button class="btn-close" @onclick="CloseSidebar">
+                    <span class="bi bi-x-lg"></span>
+                </button>
+            </div>
+            <div class="sidebar-content">
+                @if (GetDayEvents(selectedDay.Value).Any())
+                {
+                    @foreach (var evt in GetDayEvents(selectedDay.Value))
+                    {
+                        <div class="event-card @evt.Category">
+                            <div class="event-card-header">
+                                <span class="event-icon bi @GetEventIcon(evt.Category)"></span>
+                                <span class="event-time">@evt.Time</span>
+                            </div>
+                            <h4>@evt.Title</h4>
+                            <p>@evt.Description</p>
+                            <div class="event-card-footer">
+                                <button class="btn btn-sm btn-edit">
+                                    <span class="bi bi-pencil"></span> Sửa
+                                </button>
+                                <button class="btn btn-sm btn-delete">
+                                    <span class="bi bi-trash"></span> Xóa
+                                </button>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="empty-state">
+                        <span class="bi bi-calendar-x"></span>
+                        <p>Không có sự kiện nào</p>
+                        <button class="btn btn-primary" @onclick="OpenNewEventModal">
+                            <span class="bi bi-plus-lg"></span> Thêm sự kiện
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private DateTime currentDate = DateTime.Now;
+    private DateTime? selectedDay = null;
+    private bool showSidebar = false;
+
+    // Sample events data
+    private List<CalendarEvent> events = new List<CalendarEvent>
+    {
+        new CalendarEvent
+        {
+            Date = DateTime.Today,
+            Time = "09:00",
+            Title = "Họp đội nhóm",
+            Description = "Thảo luận kế hoạch tuần",
+            Category = "meeting"
+        },
+        new CalendarEvent
+        {
+            Date = DateTime.Today,
+            Time = "14:00",
+            Title = "Đào tạo AI",
+            Description = "Huấn luyện mô hình mới",
+            Category = "training"
+        },
+        new CalendarEvent
+        {
+            Date = DateTime.Today.AddDays(1),
+            Time = "10:00",
+            Title = "Review code",
+            Description = "Kiểm tra pull request",
+            Category = "work"
+        },
+        new CalendarEvent
+        {
+            Date = DateTime.Today.AddDays(2),
+            Time = "15:00",
+            Title = "Tư vấn khách hàng",
+            Description = "Gặp gỡ khách hàng mới",
+            Category = "meeting"
+        },
+        new CalendarEvent
+        {
+            Date = DateTime.Today.AddDays(5),
+            Time = "11:00",
+            Title = "Nghỉ giải lao",
+            Description = "Team building",
+            Category = "personal"
+        },
+    };
+
+    private List<DateTime> GetCalendarDays()
+    {
+        var firstDay = new DateTime(currentDate.Year, currentDate.Month, 1);
+        var lastDay = firstDay.AddMonths(1).AddDays(-1);
+
+        // Get the Monday of the week containing the first day
+        var startDate = firstDay.AddDays(-(int)firstDay.DayOfWeek + (int)DayOfWeek.Monday);
+        if (firstDay.DayOfWeek == DayOfWeek.Sunday)
+            startDate = startDate.AddDays(-7);
+
+        var days = new List<DateTime>();
+        var currentDay = startDate;
+
+        // Generate 6 weeks of days
+        for (int i = 0; i < 42; i++)
+        {
+            days.Add(currentDay);
+            currentDay = currentDay.AddDays(1);
+        }
+
+        return days;
+    }
+
+    private string GetDayClass(DateTime day)
+    {
+        var classes = new List<string>();
+
+        if (day.Month != currentDate.Month)
+            classes.Add("other-month");
+
+        if (day.Date == DateTime.Today)
+            classes.Add("today");
+
+        if (selectedDay.HasValue && day.Date == selectedDay.Value.Date)
+            classes.Add("selected");
+
+        if (HasEvents(day))
+            classes.Add("has-events");
+
+        return string.Join(" ", classes);
+    }
+
+    private bool HasEvents(DateTime day)
+    {
+        return events.Any(e => e.Date.Date == day.Date);
+    }
+
+    private IEnumerable<CalendarEvent> GetDayEvents(DateTime day)
+    {
+        return events.Where(e => e.Date.Date == day.Date).OrderBy(e => e.Time);
+    }
+
+    private string GetEventIcon(string category)
+    {
+        return category switch
+        {
+            "meeting" => "bi-people",
+            "training" => "bi-mortarboard",
+            "work" => "bi-briefcase",
+            "personal" => "bi-heart",
+            _ => "bi-calendar-event"
+        };
+    }
+
+    private void PreviousMonth()
+    {
+        currentDate = currentDate.AddMonths(-1);
+    }
+
+    private void NextMonth()
+    {
+        currentDate = currentDate.AddMonths(1);
+    }
+
+    private void GoToToday()
+    {
+        currentDate = DateTime.Now;
+        SelectDay(DateTime.Today);
+    }
+
+    private void SelectDay(DateTime day)
+    {
+        selectedDay = day;
+        showSidebar = true;
+    }
+
+    private void CloseSidebar()
+    {
+        showSidebar = false;
+    }
+
+    private void OpenNewEventModal()
+    {
+        // TODO: Implement modal for creating new events
+    }
+
+
+}
