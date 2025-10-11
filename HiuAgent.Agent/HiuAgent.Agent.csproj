@@ -1,23 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutputType>Module</OutputType>
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>default</LangVersion>
         <RootNamespace>HiuAgent.Core</RootNamespace>
+        <UserSecretsId>a022984e-88ab-4376-b28d-1083cde2634d</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Functions\" />
+      <Folder Include="Tools\" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Azure.AI.OpenAI" Version="2.1.0" />
-      <PackageReference Include="Azure.Identity" Version="1.16.0" />
-      <PackageReference Include="Microsoft.Agents.AI" Version="1.0.0-preview.251001.3" />
-      <PackageReference Include="Microsoft.Agents.AI.OpenAI" Version="1.0.0-preview.251001.3" />
+      <PackageReference Include="Microsoft.Agents.AI" Version="1.0.0-preview.251002.1" />
+      <PackageReference Include="Microsoft.Agents.AI.Abstractions" Version="1.0.0-preview.251002.1" />
+      <PackageReference Include="Microsoft.Agents.AI.OpenAI" Version="1.0.0-preview.251002.1" />
+      <PackageReference Include="Microsoft.Agents.AI.Workflows" Version="1.0.0-preview.251002.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\HiuAgent.Core\HiuAgent.Core.csproj" />
     </ItemGroup>
 
 </Project>

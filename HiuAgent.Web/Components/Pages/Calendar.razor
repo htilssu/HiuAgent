@@ -1,20 +1,13 @@
 @page "/calendar"
+@rendermode InteractiveServer
 @using System.Globalization
+@using HiuAgent.Core.Domains
 
-<PageTitle>Lịch Agent - Calendar Management</PageTitle>
+<PageTitle>Lịch của bạn</PageTitle>
 
 <div class="calendar-container">
     <!-- Header -->
     <div class="calendar-header">
-        <div class="header-left">
-            <div class="icon-wrapper">
-                <span class="bi bi-calendar-check"></span>
-            </div>
-            <div>
-                <h1 class="page-title">Quản Lý Lịch Agent</h1>
-                <p class="page-subtitle">Hệ thống quản lý và lập kế hoạch thông minh</p>
-            </div>
-        </div>
         <div class="header-actions">
             <button class="btn btn-outline" @onclick="PreviousMonth">
                 <span class="bi bi-chevron-left"></span>
@@ -122,52 +115,87 @@
     // Sample events data
     private List<CalendarEvent> events = new List<CalendarEvent>
     {
-        new CalendarEvent { Date = DateTime.Today, Time = "09:00", Title = "Họp đội nhóm", Description = "Thảo luận kế hoạch tuần", Category = "meeting" },
-        new CalendarEvent { Date = DateTime.Today, Time = "14:00", Title = "Đào tạo AI", Description = "Huấn luyện mô hình mới", Category = "training" },
-        new CalendarEvent { Date = DateTime.Today.AddDays(1), Time = "10:00", Title = "Review code", Description = "Kiểm tra pull request", Category = "work" },
-        new CalendarEvent { Date = DateTime.Today.AddDays(2), Time = "15:00", Title = "Tư vấn khách hàng", Description = "Gặp gỡ khách hàng mới", Category = "meeting" },
-        new CalendarEvent { Date = DateTime.Today.AddDays(5), Time = "11:00", Title = "Nghỉ giải lao", Description = "Team building", Category = "personal" },
+        new CalendarEvent
+        {
+            Date = DateTime.Today,
+            Time = "09:00",
+            Title = "Họp đội nhóm",
+            Description = "Thảo luận kế hoạch tuần",
+            Category = "meeting"
+        },
+        new CalendarEvent
+        {
+            Date = DateTime.Today,
+            Time = "14:00",
+            Title = "Đào tạo AI",
+            Description = "Huấn luyện mô hình mới",
+            Category = "training"
+        },
+        new CalendarEvent
+        {
+            Date = DateTime.Today.AddDays(1),
+            Time = "10:00",
+            Title = "Review code",
+            Description = "Kiểm tra pull request",
+            Category = "work"
+        },
+        new CalendarEvent
+        {
+            Date = DateTime.Today.AddDays(2),
+            Time = "15:00",
+            Title = "Tư vấn khách hàng",
+            Description = "Gặp gỡ khách hàng mới",
+            Category = "meeting"
+        },
+        new CalendarEvent
+        {
+            Date = DateTime.Today.AddDays(5),
+            Time = "11:00",
+            Title = "Nghỉ giải lao",
+            Description = "Team building",
+            Category = "personal"
+        },
     };
 
     private List<DateTime> GetCalendarDays()
     {
         var firstDay = new DateTime(currentDate.Year, currentDate.Month, 1);
         var lastDay = firstDay.AddMonths(1).AddDays(-1);
-        
+
         // Get the Monday of the week containing the first day
         var startDate = firstDay.AddDays(-(int)firstDay.DayOfWeek + (int)DayOfWeek.Monday);
         if (firstDay.DayOfWeek == DayOfWeek.Sunday)
             startDate = startDate.AddDays(-7);
-        
+
         var days = new List<DateTime>();
         var currentDay = startDate;
-        
+
         // Generate 6 weeks of days
         for (int i = 0; i < 42; i++)
         {
             days.Add(currentDay);
             currentDay = currentDay.AddDays(1);
         }
-        
+
         return days;
     }
 
     private string GetDayClass(DateTime day)
     {
         var classes = new List<string>();
-        
+
         if (day.Month != currentDate.Month)
             classes.Add("other-month");
-        
+
         if (day.Date == DateTime.Today)
             classes.Add("today");
-        
+
         if (selectedDay.HasValue && day.Date == selectedDay.Value.Date)
             classes.Add("selected");
-        
+
         if (HasEvents(day))
             classes.Add("has-events");
-        
+
         return string.Join(" ", classes);
     }
 
@@ -225,12 +253,5 @@
         // TODO: Implement modal for creating new events
     }
 
-    public class CalendarEvent
-    {
-        public DateTime Date { get; set; }
-        public string Time { get; set; } = "";
-        public string Title { get; set; } = "";
-        public string Description { get; set; } = "";
-        public string Category { get; set; } = "work";
-    }
+
 }
