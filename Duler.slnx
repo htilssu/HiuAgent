@@ -1,0 +1,13 @@
+﻿<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="compose.yaml" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src\Duler.Agent\Duler.Agent.csproj" Type="Classic C#" />
+    <Project Path="src\Duler.Core\Duler.Core.csproj" Type="Classic C#" />
+    <Project Path="src\Duler.Web\Duler.Web.csproj" Type="Classic C#" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="test\Duler.Core.Test\Duler.Core.Test.csproj" Type="Classic C#" />
+  </Folder>
+</Solution>
